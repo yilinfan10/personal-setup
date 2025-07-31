@@ -4,6 +4,10 @@ if [ "$arch" = "aarch64" ]; then
 fi
 export PATH=/home/yilinf/local/$arch/bin:$PATH
 
+command_exists() {
+  $1 --version &> /dev/null
+}
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -91,13 +95,6 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
 
@@ -135,8 +132,7 @@ source <(fzf --zsh)
 export NVCF_API_KEY=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
 
 # Check if nvim is installed
-nvim -v &> /dev/null
-if [ $? -eq 0 ]; then
+if ! command_exsits nvim; then
     # If nvim is installed, alias vim to nvim
     alias vim='nvim'
 else
@@ -146,4 +142,6 @@ fi
 
 export PATH=~/local/packages/ngc-cli:$PATH
 
-source ~/.zshrc_local
+if [ -f "$HOME/.zshrc_local" ]; then
+    source ~/.zshrc_local
+fi
