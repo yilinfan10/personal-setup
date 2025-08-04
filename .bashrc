@@ -4,6 +4,8 @@ if [ "$arch" = "aarch64" ]; then
 fi
 export PATH=/home/yilinf/local/$arch/bin:$PATH
 
+# checking for interactive shell and exiting if so
+[ -z "$PS1" ] && return
 # run zsh if it exists
 zsh --version &> /dev/null
 if [ $? -eq 0 ]; then
