@@ -16,6 +16,20 @@ command_exists() {
   $1 --version &> /dev/null
 }
 
+# Replace git with latest version built from source
+if [ -n "$INSTALL_ROOT/git" ]; then
+  echo "Building git"
+  git_ver="git-2.50.1"
+  wget https://www.kernel.org/pub/software/scm/git/$git_ver.tar.gz
+  tar -zxf $git_ver.tar.gz
+  cd $git_ver
+  make configure
+  ./configure --prefix=$INSTALL_ROOT
+  make all NO_ASCIIDOC=1
+  make install NO_ASCIIDOC=1
+  cd ..
+fi
+
 if ! command_exists zsh; then
   if [ "$arch" = "arm64" ]; then
     echo "Building ncurses"
