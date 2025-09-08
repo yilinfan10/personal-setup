@@ -110,11 +110,12 @@ if ! command_exists rg; then
 fi
 
 if ! command_exists npm; then
-  echo "Installing nvm"
-  mkdir -p $INSTALL_ROOT/nvm
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | NVM_DIR=$INSTALL_ROOT/nvm bash
-
-  source $NVM_DIR/nvm.sh
+  if ! command_exists nvm; then
+    echo "Installing nvm"
+    mkdir -p $INSTALL_ROOT/nvm
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | NVM_DIR=$INSTALL_ROOT/nvm bash
+    source $NVM_DIR/nvm.sh
+  fi
 
   echo "Installing npm"
   nvm install v24.4.0
