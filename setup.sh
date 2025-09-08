@@ -17,7 +17,7 @@ command_exists() {
 }
 
 # Replace git with latest version built from source
-if [ -n "$INSTALL_ROOT/git" ]; then
+if [ -f "$INSTALL_ROOT/git" ]; then
   echo "Building git"
   git_ver="git-2.50.1"
   wget https://www.kernel.org/pub/software/scm/git/$git_ver.tar.gz
