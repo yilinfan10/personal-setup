@@ -1,8 +1,4 @@
-arch=$(uname -m)
-if [ "$arch" = "aarch64" ]; then
-   arch="arm64"
-fi
-export PATH=/home/yilinf/local/$arch/bin:$PATH
+export PATH=$HOME/homebrew/$(uname -m)/bin:$PATH
 
 command_exists() {
   $1 --version &> /dev/null
@@ -112,10 +108,6 @@ source $ZSH/oh-my-zsh.sh
 
 alias tp='trash-put'
 
-export NVM_DIR="/home/yilinf/local/$arch/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -145,3 +137,4 @@ export PATH=~/local/packages/ngc-cli:$PATH
 if [ -f "$HOME/.zshrc_local" ]; then
     source ~/.zshrc_local
 fi
+
