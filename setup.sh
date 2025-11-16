@@ -5,7 +5,7 @@ echo "System is $arch"
 if [ "$arch" = "aarch64" ]; then
   arch=arm64
 fi
-INSTALL_ROOT=/home/yilinf/local/$arch
+INSTALL_ROOT=$HOME/local/$arch
 TMP_ROOT=/tmp/setup
 PATH=$PATH:$INSTALL_ROOT/bin
 
