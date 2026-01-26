@@ -123,9 +123,8 @@ function vf () {
 }
 
 # Set up fzf key bindings and fuzzy completion
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(fzf --zsh)
-
-export NVCF_API_KEY=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
 
 # Check if nvim is installed
 if command_exists nvim; then
