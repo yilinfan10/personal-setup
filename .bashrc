@@ -1,13 +1,13 @@
 export PATH=$HOME/local/$(uname -m)/bin:$PATH
 
-# If not interactive do nothing
+# If not interactive, do nothing
 [[ $- != *i* ]] && return
 
 # Allow tools / scripts to opt out
 [[ -n "${NO_AUTO_ZSH:-}" ]] && return
 
 # Avoid recursion / weirdness
-[[ -n "${ZSH_VERSION:-}: ]] && return
+[[ -n "${ZSH_VERSION:-}" ]] && return
 [[ -n "${BASH_SUBSHELL:-}" && "${BASH_SUBSHELL}" -gt 0 ]] && return
 
 # run zsh if it exits
