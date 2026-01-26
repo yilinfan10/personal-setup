@@ -1,4 +1,4 @@
-export PATH=$HOME/local/$(uname -m)/bin:$PATH
+  export PATH=$HOME/local/$(uname -m)/bin:$PATH
 
 command_exists() {
   $1 --version &> /dev/null
@@ -115,6 +115,15 @@ export NVM_DIR="$HOME/local/$(uname -m)/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Check if nvim is installed
+if command_exists nvim; then
+    # If nvim is installed, alias vim to nvim
+    alias vim='nvim'
+else
+    # If nvim is not installed, print a message
+    echo "Neovim is not installed. Will not alias vim to nvim."
+fi
+
 function vf () {
   output=$(fzf --preview="bat --color=always {}")
   if [ $? -eq 0 ]; then
@@ -126,18 +135,6 @@ function vf () {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(fzf --zsh)
 
-# Check if nvim is installed
-if command_exists nvim; then
-    # If nvim is installed, alias vim to nvim
-    alias vim='nvim'
-else
-    # If nvim is not installed, print a message
-    echo "Neovim is not installed. Will not alias vim to nvim."
-fi
-
-export PATH=~/local/packages/ngc-cli:$PATH
-
 if [ -f "$HOME/.zshrc_local" ]; then
     source ~/.zshrc_local
 fi
-
