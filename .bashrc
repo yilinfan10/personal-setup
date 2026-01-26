@@ -10,7 +10,7 @@ export PATH=$HOME/local/$(uname -m)/bin:$PATH
 [[ -n "${ZSH_VERSION:-}" ]] && return
 [[ -n "${BASH_SUBSHELL:-}" && "${BASH_SUBSHELL}" -gt 0 ]] && return
 
-# run zsh if it exits
+# run zsh if it exists
 command -v zsh >/dev/null 2>&1 && exec zsh --login
 
 export NVM_DIR="$HOME/local/$arch/nvm"
