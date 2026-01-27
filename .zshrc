@@ -124,6 +124,9 @@ else
     echo "Neovim is not installed. Will not alias vim to nvim."
 fi
 
+# Use vi-style keybindings in zsh line editor
+bindkey -v
+
 # Convenience: use 'bat' even when the binary is 'batcat' (Debian/Ubuntu)
 alias bat='batcat'
 
@@ -178,10 +181,6 @@ _fzf_compgen_dir() {
 # Run codex from a clean non-auto-zsh bash login shell
 # (avoids zsh init side effects)
 alias codex="NO_AUTO_ZSH=1 bash -lc 'exec codex'"
-
-# Use vi-style keybindings in zsh line editor
-# (separate from fzf; applies to your shell input)
-bindkey -v
 
 if [ -f "$HOME/.zshrc_local" ]; then
     source ~/.zshrc_local
