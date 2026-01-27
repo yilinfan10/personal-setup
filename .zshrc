@@ -124,16 +124,64 @@ else
     echo "Neovim is not installed. Will not alias vim to nvim."
 fi
 
-function vf () {
-  output=$(fzf --preview="bat --color=always {}")
-  if [ $? -eq 0 ]; then
-    vim $output
-  fi
-}
+# Convenience: use 'bat' even when the binary is 'batcat' (Debian/Ubuntu)
+alias bat='batcat'
 
 # Set up fzf key bindings and fuzzy completion
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(fzf --zsh)
+
+# fzf default file source:
+# - inside a git repo: list tracked files from the index (very fast; no working-tree scan)
+# - outside a git repo: fall back to ripgrep's file listing
+# Tip: keep this "fast"; use FZF_CTRL_T_COMMAND (or a separate binding)
+# if you want untracked files too.
+export FZF_DEFAULT_COMMAND="
+  git ls-files --cached 2>/dev/null \
+  || rg --files --no-messages
+"
+
+# fzf UI defaults:
+# - batcat preview with line numbers + color
+# - limit preview to first 300 lines for responsiveness
+# - preview on the right
+export FZF_DEFAULT_OPTS="
+  --preview 'batcat --style=numbers --color=always --line-range :300 {}'
+  --preview-window=right:60%:wrap
+"
+
+# Enable fzf completion trigger: type ** then press <Tab>
+# (e.g., vim **<Tab>, cd **<Tab>)
+export FZF_COMPLETION_TRIGGER='**'
+
+# Ensure <Tab> in zsh runs fzf completion
+# (some plugins bind <Tab> to other widgets)
+# Place this after compinit / plugin setup so it "wins"
+bindkey '^I' fzf-completion
+
+# Candidate generators for zsh fzf completion:
+# Use rg so completion respects .gitignore (and global ignore rules).
+# --hidden includes dotfiles (still respects ignores).
+# Exclude .git itself explicitly.
+_fzf_compgen_path() {
+  rg --files --hidden --no-messages --glob '!.git/*'
+}
+
+# Directory candidates for cd **<Tab>:
+# derive parent directories from the file list and de-duplicate.
+_fzf_compgen_dir() {
+  rg --files --hidden --no-messages --glob '!.git/*' \
+    | sed 's#/[^/]*$##' \
+    | sort -u
+}
+
+# Run codex from a clean non-auto-zsh bash login shell
+# (avoids zsh init side effects)
+alias codex="NO_AUTO_ZSH=1 bash -lc 'exec codex'"
+
+# Use vi-style keybindings in zsh line editor
+# (separate from fzf; applies to your shell input)
+bindkey -v
 
 if [ -f "$HOME/.zshrc_local" ]; then
     source ~/.zshrc_local
