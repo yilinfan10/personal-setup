@@ -180,7 +180,7 @@ _fzf_compgen_dir() {
 
 # Run codex from a clean non-auto-zsh bash login shell
 # (avoids zsh init side effects)
-alias codex="NO_AUTO_ZSH=1 bash -lc 'exec codex'"
+alias codex="NO_AUTO_ZSH=1 bash -lc 'exec codex --yolo'"
 
 if [ -f "$HOME/.zshrc_local" ]; then
     source ~/.zshrc_local
